@@ -1,5 +1,5 @@
 <h1 align="center">Anatomy-guided Pathology Segmentation</h1>
-<h3 align="center">An Investigation on how to incooperate Anatomical Knowledge for Pathology Segmentation (MICCAI'24)</h3>
+<h3 align="center">An Investigation on how to incorporate Anatomical Knowledge for Pathology Segmentation (MICCAI'24)</h3>
 
 <p align="center">
     <a href="https://arxiv.org/pdf/2407.05844">
@@ -30,14 +30,14 @@ After preparing the required environment, run the following command to compile C
 `CUDA_HOME` must be defined and points to the directory of the installed CUDA toolkit.
 
 ```bash
-cd model/modeling/pixel_decoder/ops
+cd model/apex/modeling/pixel_decoder/ops
 sh make.sh
 ```
 
 ## Dataset Preparation for PET/CT 
-To run the model within the PETCT domain, we rely on two datasets: [AutoPET](https://www.cancerimagingarchive.net/) providing lesion annotations and [Atlas](https://github.com/alexanderjaus/AtlasDataset) providing anatomical annotations. Please download the respective datasets.
+To run the model within the PET/CT domain, we rely on two datasets: [AutoPET](https://www.cancerimagingarchive.net/) providing lesion annotations and [Atlas](https://github.com/alexanderjaus/AtlasDataset) providing anatomical annotations. Please download the respective datasets.
 
-After preparing the original datasets, the Atlas dataset should looks like this. Note that you do not need the image folder for the Atlas_dataset_V1. The folder with the labels are sufficient.
+After preparing the original datasets, the Atlas dataset should look like as shown below. Note that you do not need the image folder for the Atlas_dataset_V1. The folder with the labels are sufficient.
 ```
 Atlas_dataset_V1
     ├── images
@@ -91,7 +91,7 @@ To train your own model using the provided scripts, follow these steps:
     - Ensure that you have generated the training dataset using the `generate_apex_petct_training_dataset.py` script as described above.
 
 2. **Configure Training Parameters**:
-    - Edit the configuration file (e.g., `config.yaml`) to set the desired training parameters such as learning rate, batch size, number of epochs, etc. We provide 
+    - Edit the configuration file (e.g., `config.yaml`) to set the desired training parameters such as learning rate, batch size, number of epochs, etc. We provide a default example in in `training_skripts/petct_configs/petct_config_anatomical_true_cross_attention.yaml`
     - Set the environment variable ```"DETECTRON_DATASET":"<slices_dataset_target>" ```
 
 3. **Run the Training Script**:
@@ -102,11 +102,11 @@ To train your own model using the provided scripts, follow these steps:
     ```
 
 #### Arguments
-- `--eval-only`: Optional flag to only evaluate a model checkpoint
-- `--config`: Path to config file for the training. We provide a default config in `training_skripts/petct_configs/petct_config_anatomical_true_cross_attention.yaml`
+- `--eval-only`: Optional flag to only evaluate a model checkpoint.
+- `--config`: Path to config file for the training. 
 - `--num-gpus`: Number of GPUs to run distributed training on. 
 
-The project uses Hydra for configuration, allowing you to append configs directly to the main command when running a script. Typically the output directory and the current data split on which the model should be trained should be defined. This is shown via an example below.
+The project uses [Hydra](https://hydra.cc/) for configuration, allowing you to append configs directly to the main command when running a script. Typically the output directory and the current data split on which the model should be trained should be defined. This is shown via an example below.
 
 #### Example
 
