@@ -1,0 +1,28 @@
+DATASETS:
+  TRAIN: ("petctmix_dataset_train_full",)
+  TEST: ("petctmix_dataset_val_full", )
+DATALOADER:
+  NUM_WORKERS: 8
+SOLVER:
+  IMS_PER_BATCH: 128
+  BASE_LR: 0.0001
+TEST:
+  EVAL_PERIOD: 5000
+MODEL:
+  META_ARCHITECTURE: 'MaskFormer_dual_transformer_decoder'
+  MASK_FORMER:
+    TRANSFORMER_DECODER_NAME: "MultiScaleMaskedDualTransformerDecoderTrueCrossAttention"
+  SEM_SEG_HEAD:
+    NUM_CLASSES: 145
+    NAME: 'MaskFormerHead_dual_transformer'
+  PIXEL_MEAN: [0,0,0]
+  PIXEL_STD: [1,1,1]
+  RESNETS:
+    DEPTH: 50
+  WEIGHTS: "/local/lvmmed_resnet_detectron.pkl"
+INPUT:
+  CROP:
+    SIZE: [400, 400]
+  MIN_SIZE_TRAIN: (512, 768, 1024, 1280, 1536, 1792, 2048)
+  DATASET_MAPPER_NAME: petctmix_separate_anatomy_pathology_labels
+VERSION: 2
